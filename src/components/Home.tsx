@@ -18,8 +18,7 @@ export const Home =  ()=>{
     return(
         <>
                  {/* <Nav itemCount={count}/> */}
-
-        <Item itemSrc={data?.[0]?.image} itemPrice={data?.[0]?.price} itemTitle={data?.[0]?.title} onClick={()=>null}/>
+        <h1 className="bg-red-300">Home</h1>
         
         </>
     )
