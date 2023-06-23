@@ -20,16 +20,8 @@ export const Products = ({ onClick }: ProductsProps) => {
         Promise.all([fetch(`https://fakestoreapi.com/products/category/${menCategory}`)
         .then(res=>res.json()),fetch(`https://fakestoreapi.com/products/category/${womenCategory}`)
         .then(res=>res.json())]).then(([json1,json2])=>{
-        //    console.log(json);
-           
             setData([...json1,...json2])
         })
-        // fetch(`https://fakestoreapi.com/products/category/${menCategory}`)
-        // .then(res=>res.json()).then((json)=>{
-        //  setData(json)})
-        //  fetch(`https://fakestoreapi.com/products/category/${womenCategory}`)
-        //  .then(res=>res.json()).then((json)=>{
-        //   setData(json)})
     },[])
  
     

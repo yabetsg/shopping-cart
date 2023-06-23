@@ -2,10 +2,13 @@ import { CartView } from "./CartView";
 interface CartProps{
     children: typeof CartView
 }
-export const Cart = ({children}:{children:string})=>{
+export const Cart = ({children}:any)=>{
     return(
        <div>
         {children}
-       </div>
+
+        {children?<>Checkout</>:'Cart is Empty'}
+       
+        </div>  
     );
 }
