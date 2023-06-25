@@ -9,7 +9,7 @@ export const Nav = ({itemCount}:NavProps) => {
     const count = useContext(Context)
   return (
     
-    <nav className="text-4xl flex justify-around">
+    <nav className="flex justify-around text-4xl">
       <header>
         <Link to="/">Shop</Link>
       </header>
@@ -21,7 +21,7 @@ export const Nav = ({itemCount}:NavProps) => {
           <li>
             <Link to="/products">Products</Link>
           </li>
-          <span className="flex gap-1 text-xs text-sm font-bold">
+          <span className="flex gap-1 text-sm font-bold">
             <li className="flex self-center">
               <Link to="/cart">
               <svg

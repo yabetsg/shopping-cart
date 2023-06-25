@@ -28,7 +28,7 @@ export const Products = ({ onClick }: ProductsProps) => {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
      {data.map((item,index)=>{
-        return  <Item key={index}
+        return  <Item id={index.toString()} key={index}
         itemSrc={item?.image}
         itemPrice={item?.price}
         itemTitle={item?.title}
