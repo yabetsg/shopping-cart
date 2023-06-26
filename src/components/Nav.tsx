@@ -9,19 +9,19 @@ export const Nav = ({itemCount}:NavProps) => {
     const count = useContext(Context)
   return (
     
-    <nav className="flex justify-around text-4xl">
+    <nav className="flex justify-between px-16 py-5 text-4xl bg-[rgb(20,18,4)] text-white">
       <header>
-        <Link to="/">Shop</Link>
+        <Link className="font-['TTNormsBlack','ui-serif','Georgia'] text-5xl" to="/products">Shop</Link>
       </header>
-      <div className="flex">
-        <ul className="flex flex-row gap-8">
+      <div className="flex ">
+        <ul className="flex flex-row items-center gap-10 text-base ">
           <li>
-            <Link to="/">Home</Link>
+            <Link className="hover:underline" to="/">Home</Link>
           </li>
           <li>
-            <Link to="/products">Products</Link>
+            <Link className="hover:underline" to="/products">Products</Link>
           </li>
-          <span className="flex gap-1 text-sm font-bold">
+          <span className="flex gap-1 text-sm font-bold hover:translate-y-[-2px]">
             <li className="flex self-center">
               <Link to="/cart">
               <svg
@@ -30,7 +30,7 @@ export const Nav = ({itemCount}:NavProps) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.7}
                 stroke="currentColor"
-                className="w-8 h-8"
+                className="w-6 h-6"
               >
                 <path
                   strokeLinecap="round"
@@ -40,7 +40,7 @@ export const Nav = ({itemCount}:NavProps) => {
               </svg>
               </Link>
             </li>
-            <p>{itemCount}</p>
+            <p className="items-start p-0 text-sm font-medium text-red-500">{itemCount}</p>
           </span>
         </ul>
       </div>

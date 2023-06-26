@@ -19,16 +19,16 @@ export const CartView = ({
   handleIncrease
 }: CartViewProps) => {
   return (
-    <div className="w-[300px]">
-      <div className="flex">
-        <img className="w-[80px] h-[100px]" src={itemSrc} alt=""></img>
-        <div className="flex flex-col ">
-          <p className="text-xs font-bold">{itemTitle}</p>
+    <div className="w-[350px] font-serif  ">
+      <div className="flex gap-3">
+        <img className="w-[190px] h-[240px]" src={itemSrc} alt=""></img>
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-xs font-extrabold">{itemTitle}</p>
           <p>{itemPrice}</p>
-          <div className="flex flex-row justify-center gap-4">
-            <button id={id} className="bg-gray-400">-</button>
+          <div className="flex flex-row justify-center gap-4 border-t border-b border-t-black border-b-black">
+            <button id={id} className="border-l border-r border-l-black border-r-black w-7">-</button>
             <p>{itemCount}</p>
-            <button id={id} onClick={handleIncrease} className="bg-gray-400">+</button>
+            <button id={id} onClick={handleIncrease} className="border-l border-r border-l-black border-r-black w-7">+</button>
           </div>
         </div>
       </div>

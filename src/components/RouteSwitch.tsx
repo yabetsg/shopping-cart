@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { MutableRefObject, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./Home";
 import { Nav } from "./Nav";
@@ -6,10 +6,7 @@ import { Context, Products } from "./Products";
 import { Cart } from "./Cart";
 import { CartView } from "./CartView";
 import uniqid from 'uniqid';
-//TODO: problem - adding same items to cart, increasing quantity
-//TODO: when adding to cart and item already exists inside of cartViewStorage 
-//TODO: increment existing items itemCount by 1
-
+// when clicking + simulate "add to cart click"
 // import { Products } from "./Products";
 //  export const Context = React.createContext('');
 export const RouteSwitch = () => {
@@ -19,19 +16,23 @@ export const RouteSwitch = () => {
   const [counter, setCounter] = useState<string>('1');
   const [render,setRender] = useState<boolean>(true);
   const [id, setId] = useState(0);
+  const [incrementedItemCount, setIncrementedItemCount] = useState('');
   const count = useContext(Context);
-
+  
   
 
   const handleClick = (e: any):void => {
+    // console.log(e.target.parentNode.childNodes);
     
-    const [itemSrc, itemTitle, itemPrice] = e.target.parentNode.childNodes;
+    const [itemSrc,_, itemTitle, itemPrice] = e.target.parentNode.childNodes;
+    console.log(itemPrice.textContent.replace('$',''));
+    
     const id = e.target.id;
     let flag =false;
+    // console.log(itemPrice);
+    
     cartViewStorage.forEach(value=>{
-      // console.log(value !== null && typeof value ==='object' && 'props' in value&& );
      
-      
       if(typeof value === 'object' && value !== null && 'props' in value && value.props.id==id){ 
         //value is the old item
         //inside this if statement because the item is already in cart
@@ -52,6 +53,8 @@ export const RouteSwitch = () => {
         );
         cartViewStorage.splice(cartViewStorage.indexOf(value),1,newCartItem);
         setCartViewStorage(cartViewStorage);
+          setItemCount((parseInt(itemCount)+1).toString());
+          setTotalPrice(totalPrice+parseFloat(itemPrice.textContent.replace('$','')));
 
         render?setRender(false):setRender(true);
         
@@ -64,7 +67,7 @@ export const RouteSwitch = () => {
     // -------------- ITEM NOT IN CART ---------------------------
     
     
-    setTotalPrice(totalPrice+parseFloat(itemPrice.textContent));
+    setTotalPrice(totalPrice+parseFloat(itemPrice.textContent.replace('$','')));
     let newCartItem = (
       <CartView
       id={id}
@@ -79,17 +82,19 @@ export const RouteSwitch = () => {
     setCartViewStorage((prevState) => [...prevState, newCartItem]);
       
    
+   
     
     setItemCount((parseInt(itemCount) + 1).toString());
     setId(id+1);
   };
-  const handleIncrease = (e:any)=>{
-    const id = e.target.id;
-    console.log(cartViewStorage);
-    
+  const handleIncrease = ((e:any) =>{
+    const id = e.target?.id;
     cartViewStorage.forEach(value=>{
+     
+      
       if(typeof value === 'object' && value !== null && 'props' in value && value.props.id==id){ 
-        
+        console.log('inside if');
+        setIncrementedItemCount((parseInt(value.props.itemCount) + 1).toString());
         const incrementedItemCount = (parseInt(value.props.itemCount) + 1).toString();
        
         const newCartItem = (
@@ -105,27 +110,20 @@ export const RouteSwitch = () => {
         );
         cartViewStorage.splice(cartViewStorage.indexOf(value),1,newCartItem);
         setCartViewStorage(cartViewStorage);
-
+          console.log(render);
+          
         render?setRender(false):setRender(true);  
       }
     })
     
-    
-      
-  }
+  });
  useEffect(()=>{
 
-  //re-renders updated items in cart
+  
+  console.log('render change');
   
  },[render])
- useEffect(()=>{
-
-  //re-renders updated items in cart
-  // console.log('+1');
-  console.log(cartViewStorage);
-  
-  
- },[cartViewStorage])
+ 
 
   return (
     <>
