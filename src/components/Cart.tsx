@@ -14,7 +14,7 @@ export const Cart = ({children,totalPrice}:any)=>{
         </div>
         {/* <span className="w-screen border-t-4 border-black">x</span> */}
         <div className="flex justify-around p-2 text-3xl border-t border-gray-300">
-            <Link to={'/products'}><button className="bg-[rgb(84,68,43)] rounded-sm text-white w-56 p-2">Back</button></Link>
+            <Link to={'/products'}><button className="bg-[rgb(60,61,59)] rounded-sm text-white w-56 p-2">Back</button></Link>
             
         <p>Total: ${totalPrice} </p>
         {children?<button className="w-56 p-2 text-white bg-black rounded-sm">Checkout</button>:'Cart is Empty'}

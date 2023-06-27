@@ -11,7 +11,7 @@ export const Nav = ({itemCount}:NavProps) => {
     
     <nav className="flex justify-between px-16 py-5 text-4xl bg-[rgb(20,18,4)] text-white">
       <header>
-        <Link className="font-['TTNormsBlack','ui-serif','Georgia'] text-5xl" to="/products">Shop</Link>
+        <Link className="font-['TTNormsBlack','ui-serif','Georgia'] text-5xl" to="/">fashion</Link>
       </header>
       <div className="flex ">
         <ul className="flex flex-row items-center gap-10 text-base ">

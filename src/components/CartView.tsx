@@ -5,6 +5,7 @@ interface CartViewProps {
   itemPrice: number;
   itemCount: string;
   id:string;
+  products:any;
 //   handleDecrease:()=>void;
   handleIncrease:(e:any)=>void;
 }
@@ -15,6 +16,7 @@ export const CartView = ({
   itemPrice,
   itemCount,
   id,
+  products,
 //   handleDecrease,
   handleIncrease
 }: CartViewProps) => {
@@ -28,7 +30,7 @@ export const CartView = ({
           <div className="flex flex-row justify-center gap-4 border-t border-b border-t-black border-b-black">
             <button id={id} className="border-l border-r border-l-black border-r-black w-7">-</button>
             <p>{itemCount}</p>
-            <button id={id} onClick={handleIncrease} className="border-l border-r border-l-black border-r-black w-7">+</button>
+            <button data-products = {products} id={id} onClick={handleIncrease} className="border-l border-r border-l-black border-r-black w-7">+</button>
           </div>
         </div>
       </div>

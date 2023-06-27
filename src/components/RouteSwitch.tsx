@@ -22,15 +22,59 @@ export const RouteSwitch = () => {
   
 
   const handleClick = (e: any):void => {
-    // console.log(e.target.parentNode.childNodes);
-    
-    const [itemSrc,_, itemTitle, itemPrice] = e.target.parentNode.childNodes;
-    console.log(itemPrice.textContent.replace('$',''));
-    
-    const id = e.target.id;
+     let id:any;
+     let [itemSrc,_, itemTitle, itemPrice] = e.target.parentNode.childNodes;
+    if(e.target.getAttribute('data-products')){
+      id = e.target.id;
+  
+      
+      [itemSrc, itemTitle, itemPrice] = e.target.getAttribute('data-products').split(',')
+      let flag =false; 
+      
+      cartViewStorage.forEach(value=>{
+      
+       
+        if(typeof value === 'object' && value !== null && 'props' in value && value.props.id==id){ 
+          //value is the old item
+          //inside this if statement because the item is already in cart
+          //if item is already in cart then replace the old item with new one (updated itemCount#)
+          //       -  increment = value.props.itemCount +1
+          const incrementedItemCount = (parseInt(value.props.itemCount) + 1).toString();
+         
+          const newCartItem = (
+            <CartView
+            id={id}
+            //  handleDecrease={}
+            products={[value.props.itemSrc,value.props.itemTitle,value.props.itemPrice]}
+              handleIncrease={handleClick}
+              itemSrc={value.props.itemSrc}
+              itemTitle={value.props.itemTitle}
+              itemPrice={value.props.itemPrice}
+              itemCount={incrementedItemCount}
+            ></CartView>
+          );
+          cartViewStorage.splice(cartViewStorage.indexOf(value),1,newCartItem);
+          setCartViewStorage(cartViewStorage);
+            setItemCount((parseInt(itemCount)+1).toString());
+            setTotalPrice(totalPrice+parseFloat(itemPrice.replace('$','')));
+  
+          render?setRender(false):setRender(true);
+          
+         
+          
+            flag = true;
+            
+        }
+        
+      })
+     
+       return;
+    }else{
+      [itemSrc,_, itemTitle, itemPrice] = e.target.parentNode.childNodes;
+       id = e.target.id;
+    }
+   
     let flag =false;
-    // console.log(itemPrice);
-    
     cartViewStorage.forEach(value=>{
      
       if(typeof value === 'object' && value !== null && 'props' in value && value.props.id==id){ 
@@ -44,7 +88,8 @@ export const RouteSwitch = () => {
           <CartView
           id={id}
           //  handleDecrease={}
-            handleIncrease={handleIncrease}
+          products={[value.props.itemSrc,value.props.itemTitle,value.props.itemPrice]}
+            handleIncrease={handleClick}
             itemSrc={value.props.itemSrc}
             itemTitle={value.props.itemTitle}
             itemPrice={value.props.itemPrice}
@@ -72,7 +117,9 @@ export const RouteSwitch = () => {
       <CartView
       id={id}
       // handleDecrease={}
-        handleIncrease={handleIncrease}
+      products={[itemSrc.src,itemTitle.textContent,itemPrice.textContent]}
+
+        handleIncrease={handleClick}
         itemSrc={itemSrc.src}
         itemTitle={itemTitle.textContent}
         itemPrice={itemPrice.textContent}
@@ -101,6 +148,7 @@ export const RouteSwitch = () => {
           <CartView
           id={id}
           //  handleDecrease={}
+          products={[value.props.itemSrc,value.props.itemTitle,value.props.itemPrice]}
             handleIncrease={handleClick}
             itemSrc={value.props.itemSrc}
             itemTitle={value.props.itemTitle}
@@ -117,6 +165,7 @@ export const RouteSwitch = () => {
     })
     
   });
+  // useEffect(()=>{},[handleClick])
  useEffect(()=>{
 
   
