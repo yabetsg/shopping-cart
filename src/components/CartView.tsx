@@ -4,10 +4,10 @@ interface CartViewProps {
   itemTitle: string;
   itemPrice: number;
   itemCount: string;
-  id:string;
-  products:any;
-//   handleDecrease:()=>void;
-  handleIncrease:(e:any)=>void;
+  id: string;
+  products: any;
+  //   handleDecrease:()=>void;
+  handleIncrease: (e: any) => void;
 }
 
 export const CartView = ({
@@ -17,8 +17,8 @@ export const CartView = ({
   itemCount,
   id,
   products,
-//   handleDecrease,
-  handleIncrease
+  //   handleDecrease,
+  handleIncrease,
 }: CartViewProps) => {
   return (
     <div className="w-[350px] font-serif  ">
@@ -28,9 +28,21 @@ export const CartView = ({
           <p className="text-xs font-extrabold">{itemTitle}</p>
           <p>{itemPrice}</p>
           <div className="flex flex-row justify-center gap-4 border-t border-b border-t-black border-b-black">
-            <button id={id} className="border-l border-r border-l-black border-r-black w-7">-</button>
+            <button
+              id={id}
+              className="border-l border-r border-l-black border-r-black w-7"
+            >
+              -
+            </button>
             <p>{itemCount}</p>
-            <button data-products = {products} id={id} onClick={handleIncrease} className="border-l border-r border-l-black border-r-black w-7">+</button>
+            <button
+              data-products={products}
+              id={id}
+              onClick={handleIncrease}
+              className="border-l border-r border-l-black border-r-black w-7"
+            >
+              +
+            </button>
           </div>
         </div>
       </div>

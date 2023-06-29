@@ -21,18 +21,19 @@ describe("Nav component", () => {
     expect(navigation).toContainElement(homeLink);
     expect(navigation).toContainElement(productsLink);
   });
-  it('checks for correct path to links',()=>{
+  it("checks for correct path to links", () => {
     render(
-        <MemoryRouter>
-          <Nav itemCount={""} />
-        </MemoryRouter>
-      );
+      <MemoryRouter>
+        <Nav itemCount={""} />
+      </MemoryRouter>
+    );
+
     const homeLink = screen.getByRole("link", { name: "Home" });
     const productsLink = screen.getByRole("link", { name: "Products" });
     const cartLink = screen.getByRole("link", { name: "" });
-    expect(homeLink).toHaveAttribute('href','/');
-    expect(productsLink).toHaveAttribute('href','/products');
-    expect(cartLink).toHaveAttribute('href','/cart');
 
-  })
+    expect(homeLink).toHaveAttribute("href", "/");
+    expect(productsLink).toHaveAttribute("href", "/products");
+    expect(cartLink).toHaveAttribute("href", "/cart");
+  });
 });
