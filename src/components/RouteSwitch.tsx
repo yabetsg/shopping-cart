@@ -43,6 +43,7 @@ export const RouteSwitch = () => {
         const newCartItem = (
           <CartView
             id={id}
+            //  handleDecrease={}
             products={[
               value.props.itemSrc,
               value.props.itemTitle,
@@ -74,6 +75,7 @@ export const RouteSwitch = () => {
     let newCartItem = (
       <CartView
         id={id}
+        // handleDecrease={}
         products={[itemSrc.src, itemTitle.textContent, itemPrice.textContent]}
         handleIncrease={handleClick}
         itemSrc={itemSrc.src}
@@ -83,6 +85,7 @@ export const RouteSwitch = () => {
       ></CartView>
     );
     setCartViewStorage((prevState) => [...prevState, newCartItem]);
+
     setItemCount((parseInt(itemCount) + 1).toString());
     setId(id + 1);
   };
@@ -95,7 +98,6 @@ export const RouteSwitch = () => {
         <Nav itemCount={itemCount} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/shopping-cart" element={<Home />} />
           <Route
             path="/products"
             element={<Products onClick={handleClick} />}
