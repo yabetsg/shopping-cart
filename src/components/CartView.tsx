@@ -6,8 +6,9 @@ interface CartViewProps {
   itemCount: string;
   id: string;
   products: any;
-  //   handleDecrease:()=>void;
+  handleDecrease:(e:any)=>void;
   handleIncrease: (e: any) => void;
+  
 }
 
 export const CartView = ({
@@ -17,8 +18,8 @@ export const CartView = ({
   itemCount,
   id,
   products,
-  //   handleDecrease,
   handleIncrease,
+  handleDecrease
 }: CartViewProps) => {
   return (
     <div className="w-[350px] font-serif  ">
@@ -31,6 +32,7 @@ export const CartView = ({
             <button
               id={id}
               className="border-l border-r border-l-black border-r-black w-7"
+              onClick={handleDecrease}
             >
               -
             </button>

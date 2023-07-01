@@ -23,8 +23,91 @@ export const RouteSwitch = () => {
   const [id, setId] = useState(0);
   const [incrementedItemCount, setIncrementedItemCount] = useState("");
   const count = useContext(Context);
+const cartRef = useRef<React.ReactNode[]>([]);
+  const handleIncrease = ((e:any) =>{
+   
+    const id = e.target?.id; 
+    cartRef.current.forEach(value=>{
+      if(typeof value === 'object' && value !== null && 'props' in value && value.props.id==id){ 
+        setIncrementedItemCount((parseInt(value.props.itemCount) + 1).toString());
+        const incrementedItemCount = (parseInt(value.props.itemCount) + 1).toString();
+        setItemCount(prev=>((parseInt(prev)+1).toString()))
+        const newCartItem = (
+          <CartView
+          id={id}
+          handleDecrease={handleQuantity}
+          products={[value.props.itemSrc,value.props.itemTitle,value.props.itemPrice]}
+            handleIncrease={handleQuantity}
+            itemSrc={value.props.itemSrc}
+            itemTitle={value.props.itemTitle}
+            itemPrice={value.props.itemPrice}
+            itemCount={incrementedItemCount}
+          ></CartView>
+        );
+         cartRef.current.splice(cartRef.current.indexOf(value),1,newCartItem);
+         setCartViewStorage(cartRef.current);
+         const stringToNum = parseFloat(value.props.itemPrice.replace("$", ""));
+         setTotalPrice(prev=>parseFloat((prev + stringToNum).toFixed(2)));
+
+        render?setRender(false):setRender(true);  
+      }
+    })
+
+  });
+  const handleQuantity = ((e:any) =>{
+    const sign =  e.target.innerText;
+    let increase:boolean;
+         
+    if(sign === '+'){
+        increase = true;
+    }else if(sign === '-'){
+      increase = false;
+    }
+   
+    
+    const id = e.target?.id; 
+    cartRef.current.forEach(value=>{
+
+      if(typeof value === 'object' && value !== null && 'props' in value && value.props.id==id){ 
+        setIncrementedItemCount((parseInt(value.props.itemCount) + (increase?1:-1)).toString());
+        const incrementedItemCount = (parseInt(value.props.itemCount) + (increase?1:-1)).toString();
+        setItemCount(prev=>((parseInt(prev)+(increase?1:-1)).toString()))
+        
+        const newCartItem = (
+          <CartView
+          id={id}
+            handleDecrease={handleQuantity}
+          products={[value.props.itemSrc,value.props.itemTitle,value.props.itemPrice]}
+            handleIncrease={handleQuantity}
+            itemSrc={value.props.itemSrc}
+            itemTitle={value.props.itemTitle}
+            itemPrice={value.props.itemPrice}
+            itemCount={incrementedItemCount}
+          ></CartView>
+        );
+        if(incrementedItemCount<='0'){
+          console.log(cartRef.current);
+          
+          cartRef.current.splice(cartRef.current.indexOf(value),1)
+          
+         
+        }else{
+
+          cartRef.current.splice(cartRef.current.indexOf(value),1,newCartItem);
+        }
+         setCartViewStorage(cartRef.current);
+         const stringToNum = parseFloat(value.props.itemPrice.replace("$", ""));
+         setTotalPrice(prev=>parseFloat((prev + (increase?stringToNum:-stringToNum)).toFixed(2)));
+
+        render?setRender(false):setRender(true);  
+      }
+    })
+
+  });
 
   const handleClick = (e: any): void => {
+   
+    
     const [itemSrc, _, itemTitle, itemPrice] = e.target.parentNode.childNodes;
     const id = e.target.id;
 
@@ -48,7 +131,8 @@ export const RouteSwitch = () => {
               value.props.itemTitle,
               value.props.itemPrice,
             ]}
-            handleIncrease={handleClick}
+            handleIncrease={handleQuantity}
+            handleDecrease={handleQuantity}
             itemSrc={value.props.itemSrc}
             itemTitle={value.props.itemTitle}
             itemPrice={value.props.itemPrice}
@@ -75,7 +159,8 @@ export const RouteSwitch = () => {
       <CartView
         id={id}
         products={[itemSrc.src, itemTitle.textContent, itemPrice.textContent]}
-        handleIncrease={handleClick}
+        handleIncrease={handleQuantity}
+        handleDecrease={handleQuantity}
         itemSrc={itemSrc.src}
         itemTitle={itemTitle.textContent}
         itemPrice={itemPrice.textContent}
@@ -88,7 +173,11 @@ export const RouteSwitch = () => {
   };
 
   useEffect(() => {}, [render]);
-
+  useEffect(()=>{
+    
+      cartRef.current = cartViewStorage;
+    
+  },[cartViewStorage])
   return (
     <>
       <Context.Provider value={itemCount}>
