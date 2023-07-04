@@ -23,61 +23,45 @@ export const RouteSwitch = () => {
   const [id, setId] = useState(0);
   const [incrementedItemCount, setIncrementedItemCount] = useState("");
   const count = useContext(Context);
-const cartRef = useRef<React.ReactNode[]>([]);
-  const handleIncrease = ((e:any) =>{
-   
-    const id = e.target?.id; 
-    cartRef.current.forEach(value=>{
-      if(typeof value === 'object' && value !== null && 'props' in value && value.props.id==id){ 
-        setIncrementedItemCount((parseInt(value.props.itemCount) + 1).toString());
-        const incrementedItemCount = (parseInt(value.props.itemCount) + 1).toString();
-        setItemCount(prev=>((parseInt(prev)+1).toString()))
-        const newCartItem = (
-          <CartView
-          id={id}
-          handleDecrease={handleQuantity}
-          products={[value.props.itemSrc,value.props.itemTitle,value.props.itemPrice]}
-            handleIncrease={handleQuantity}
-            itemSrc={value.props.itemSrc}
-            itemTitle={value.props.itemTitle}
-            itemPrice={value.props.itemPrice}
-            itemCount={incrementedItemCount}
-          ></CartView>
-        );
-         cartRef.current.splice(cartRef.current.indexOf(value),1,newCartItem);
-         setCartViewStorage(cartRef.current);
-         const stringToNum = parseFloat(value.props.itemPrice.replace("$", ""));
-         setTotalPrice(prev=>parseFloat((prev + stringToNum).toFixed(2)));
+  const cartRef = useRef<React.ReactNode[]>([]);
 
-        render?setRender(false):setRender(true);  
-      }
-    })
+  const handleQuantity = (e: any) => {
+    const sign = e.target.innerText;
+    let increase: boolean;
 
-  });
-  const handleQuantity = ((e:any) =>{
-    const sign =  e.target.innerText;
-    let increase:boolean;
-         
-    if(sign === '+'){
-        increase = true;
-    }else if(sign === '-'){
+    if (sign === "+") {
+      increase = true;
+    } else if (sign === "-") {
       increase = false;
     }
-   
-    
-    const id = e.target?.id; 
-    cartRef.current.forEach(value=>{
 
-      if(typeof value === 'object' && value !== null && 'props' in value && value.props.id==id){ 
-        setIncrementedItemCount((parseInt(value.props.itemCount) + (increase?1:-1)).toString());
-        const incrementedItemCount = (parseInt(value.props.itemCount) + (increase?1:-1)).toString();
-        setItemCount(prev=>((parseInt(prev)+(increase?1:-1)).toString()))
-        
+    const id = e.target?.id;
+    cartRef.current.forEach((value) => {
+      if (
+        typeof value === "object" &&
+        value !== null &&
+        "props" in value &&
+        value.props.id == id
+      ) {
+        setIncrementedItemCount(
+          (parseInt(value.props.itemCount) + (increase ? 1 : -1)).toString()
+        );
+        const incrementedItemCount = (
+          parseInt(value.props.itemCount) + (increase ? 1 : -1)
+        ).toString();
+        setItemCount((prev) =>
+          (parseInt(prev) + (increase ? 1 : -1)).toString()
+        );
+
         const newCartItem = (
           <CartView
-          id={id}
+            id={id}
             handleDecrease={handleQuantity}
-          products={[value.props.itemSrc,value.props.itemTitle,value.props.itemPrice]}
+            products={[
+              value.props.itemSrc,
+              value.props.itemTitle,
+              value.props.itemPrice,
+            ]}
             handleIncrease={handleQuantity}
             itemSrc={value.props.itemSrc}
             itemTitle={value.props.itemTitle}
@@ -85,29 +69,29 @@ const cartRef = useRef<React.ReactNode[]>([]);
             itemCount={incrementedItemCount}
           ></CartView>
         );
-        if(incrementedItemCount<='0'){
-          console.log(cartRef.current);
-          
-          cartRef.current.splice(cartRef.current.indexOf(value),1)
-          
-         
-        }else{
-
-          cartRef.current.splice(cartRef.current.indexOf(value),1,newCartItem);
+        if (incrementedItemCount <= "0") {
+          cartRef.current.splice(cartRef.current.indexOf(value), 1);
+        } else {
+          cartRef.current.splice(
+            cartRef.current.indexOf(value),
+            1,
+            newCartItem
+          );
         }
-         setCartViewStorage(cartRef.current);
-         const stringToNum = parseFloat(value.props.itemPrice.replace("$", ""));
-         setTotalPrice(prev=>parseFloat((prev + (increase?stringToNum:-stringToNum)).toFixed(2)));
+        setCartViewStorage(cartRef.current);
+        const stringToNum = parseFloat(value.props.itemPrice.replace("$", ""));
+        setTotalPrice((prev) =>
+          parseFloat(
+            (prev + (increase ? stringToNum : -stringToNum)).toFixed(2)
+          )
+        );
 
-        render?setRender(false):setRender(true);  
+        render ? setRender(false) : setRender(true);
       }
-    })
-
-  });
+    });
+  };
 
   const handleClick = (e: any): void => {
-   
-    
     const [itemSrc, _, itemTitle, itemPrice] = e.target.parentNode.childNodes;
     const id = e.target.id;
 
@@ -173,11 +157,9 @@ const cartRef = useRef<React.ReactNode[]>([]);
   };
 
   useEffect(() => {}, [render]);
-  useEffect(()=>{
-    
-      cartRef.current = cartViewStorage;
-    
-  },[cartViewStorage])
+  useEffect(() => {
+    cartRef.current = cartViewStorage;
+  }, [cartViewStorage]);
   return (
     <>
       <Context.Provider value={itemCount}>
